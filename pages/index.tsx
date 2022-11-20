@@ -62,6 +62,7 @@ export default function Home() {
   };
 
   const refreshNumbers = () => {
+    selectedNumbers.current.clear();
     setNumbers(generateRandomNumbersList());
 
     setRequestStatus('idle');
@@ -87,33 +88,10 @@ export default function Home() {
         <p className="text-white mt-4 leading-8 hidden md:block">
           Click on a number&apos;s checkbox to select / deselect it.
           <br />
-          Delete all selected numbers by clicking on the &quot;Delete
-          selected&quot; button.
-          <br />
-          Refresh the list by clicking on the &quot;Refresh&quot; button.
+          You can delete all selected numbers or refresh the list.
         </p>
 
-        <div className="flex flex-row items-center justify-between my-4">
-          <button
-            type="button"
-            aria-label="Delete selected numbers"
-            className="inline-flex items-center px-2.5 py-1 border border-transparent rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors ease-in-out duration-250"
-            onClick={() => setDeleteNumbersDialogOpen(true)}
-          >
-            <TrashIcon />
-            Delete selected
-          </button>
-
-          <button
-            type="button"
-            aria-label="Refresh selected numbers"
-            className="inline-flex items-center px-2.5 py-1 border border-transparent rounded-md shadow-sm text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors ease-in-out duration-250"
-            onClick={refreshNumbers}
-          >
-            <RefreshIcon />
-            Refresh numbers
-          </button>
-        </div>
+        <div className="w-full h-[1px] bg-gray-200 opacity-20 md:my-4 my-2" />
 
         <ul>
           {numbers.map(number => (
@@ -123,8 +101,54 @@ export default function Home() {
           ))}
         </ul>
 
+        <div className="flex flex-row items-center my-4">
+          <button
+            type="button"
+            aria-label="Delete selected numbers"
+            className="mr-2 inline-flex items-center px-2.5 py-1 border border-transparent rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors ease-in-out duration-250"
+            onClick={() => setDeleteNumbersDialogOpen(true)}
+          >
+            <svg
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="mr-1 w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+              />
+            </svg>
+            Delete
+          </button>
+
+          <button
+            type="button"
+            aria-label="Refresh selected numbers"
+            className="inline-flex items-center px-2.5 py-1 border border-transparent rounded-md shadow-sm text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors ease-in-out duration-250"
+            onClick={refreshNumbers}
+          >
+            <svg
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="mr-1 w-6 h-6 hover:rotate-180 transition-transform duration-300 ease-in-out"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3"
+              />
+            </svg>
+            Refresh
+          </button>
+        </div>
+
         <div className="w-full flex flex-col align-middle">
-          <p className="mt-4 text-white text-xl text-center">
+          <p className=" text-white text-xl text-center">
             Current sum:{' '}
             <strong className="text-2xl">
               {numbers.reduce((acc, curr) => acc + curr, 0)}
@@ -281,37 +305,3 @@ const DeleteNumbersDialog: React.FC<{
     </Transition.Root>
   );
 };
-
-const RefreshIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    strokeWidth={1.5}
-    stroke="currentColor"
-    className="w-6 h-6 mr-2 hover:rotate-180 transition-transform duration-300 ease-in-out"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3"
-    />
-  </svg>
-);
-
-const TrashIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    strokeWidth={1.5}
-    stroke="currentColor"
-    className="mr-2 -ml-1 w-5 h-5"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
-    />
-  </svg>
-);
